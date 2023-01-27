@@ -9,7 +9,9 @@ public class EnglishApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(EnglishApplication.class, args);
 
-		//commit test
+		Hello hello = new Hello();
+		hello.setGreeting("hi");
+		System.out.println("hello.getGreeting() = " + hello.getGreeting());
 	}
 
 }
