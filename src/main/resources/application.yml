@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/blanken
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        # sysout으로 로그를 찍는 코드이다.
+        # show_sql: true #띄어쓰기 8칸
+        format_sql: true #띄어쓰기 8칸
+
+logging.level:
+  #jpa에 의해 실행되는 sql들을 로그에 찍어줌.
+  org.hibernate.SQL: debug
+  #?로 뜨는 쿼리 파리미터 요소의 타입을 로그로 찍어 줌.
+  org.hibernate.type: trace
