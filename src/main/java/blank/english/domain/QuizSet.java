@@ -1,9 +1,12 @@
 package blank.english.domain;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class QuizSet {
 
     @Id
@@ -14,6 +17,11 @@ public class QuizSet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private QuizSetTitleImg quizSetTitleImg;
+
 
     private String title;
 

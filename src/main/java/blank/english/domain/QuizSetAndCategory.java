@@ -6,25 +6,24 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class Quiz {
+public class QuizSetAndCategory {
 
     @Id
     @GeneratedValue
-    @Column(name = "quiz_id")
     private Long id;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quizset_id")
     private QuizSet quizSet;
 
-    private String first_entence;
 
-    private String blank;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-    private String last_sentence;
 
-    private String expression;
+    private String category_name;
 
-    private int order;
 
 }
