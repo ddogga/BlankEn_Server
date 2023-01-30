@@ -17,14 +17,14 @@ public class Quiz {
     @JoinColumn(name = "quizset_id")
     private QuizSet quizSet;
 
-    private String first_entence;
+    private String firstSentence;
 
     private String blank;
 
-    private String last_sentence;
+    private String lastSentence;
 
     private String expression;
 
-    private int order;
+    private int num;
 
 }

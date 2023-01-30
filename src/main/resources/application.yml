@@ -19,3 +19,10 @@ logging.level:
   org.hibernate.SQL: debug
   #?로 뜨는 쿼리 파리미터 요소의 타입을 로그로 찍어 줌.
   org.hibernate.type: trace
+
+
+server:
+  port: 8081
+  servlet:
+    context-path: /blanken/api
+

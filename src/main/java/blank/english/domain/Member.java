@@ -16,9 +16,13 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
+    @Column(unique=true, name = "user_name")
+    private String userName;
+
     private String password;
 
     private String email;
+
 
     @Column(name = "join_date")
     private LocalDateTime joinDate;
@@ -26,11 +30,10 @@ public class Member {
     @OneToMany(mappedBy = "member")
     private List<QuizSet> quizSets = new ArrayList<>();
 
-    public Member(Long id, String password, String email, LocalDateTime joinDate) {
-        this.id = id;
+    public Member(String userName,String password, String email) {
+        this.userName = userName;
         this.password = password;
         this.email = email;
-        this.joinDate = joinDate;
     }
 
     public Member() {
