@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Member {
+public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue
     @Column(name = "member_id")
@@ -23,9 +23,6 @@ public class Member {
 
     private String email;
 
-
-    @Column(name = "join_date")
-    private LocalDateTime joinDate;
 
     @OneToMany(mappedBy = "member")
     private List<QuizSet> quizSets = new ArrayList<>();
