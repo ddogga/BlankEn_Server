@@ -28,7 +28,7 @@ public class Member extends BaseTimeEntity {
     @Column(nullable = false)
     private Role role;
 
-    private String profile_img;
+    private String picture;
 
 
     @OneToMany(mappedBy = "member")
@@ -48,15 +48,15 @@ public class Member extends BaseTimeEntity {
     }
 
 
-    public Member update(String userName, String profile_img) {
+    public Member update(String userName, String picture) {
         this.userName = userName;
-        this.profile_img = profile_img;
+        this.picture = picture;
 
         return this;
     }
 
 
-    public void setProfile_img(String profile_img) {
-        this.profile_img = profile_img;
+    public void setProfile_img(String picture) {
+        this.picture = picture;
     }
 }

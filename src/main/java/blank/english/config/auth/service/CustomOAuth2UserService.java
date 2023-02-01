@@ -53,8 +53,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
     // 회원가입 처리.
     private Member saveOrUpdate(OAuthAttributes attributes){
         Member member =  memberRepository.findOneByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(),attributes.getProfile_img()))
-                .orElse(attributes.toEntity());
+                .map(entity -> entity.update(attributes.getName(),attributes.getPicture()))//회원 정보수정
+                .orElse(attributes.toEntity());//새 회원 생성
 
         return memberRepository.save(member);
     }
