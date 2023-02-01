@@ -1,6 +1,6 @@
 package blank.english.config;
 
-import blank.english.config.auth.dto.CustomOAuth2UserService;
+import blank.english.config.auth.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

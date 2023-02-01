@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -13,8 +14,14 @@ public class MemberRepository {
 
     private final EntityManager em;
 
-    public void save(Member member){
-        em.persist(member);
+    public Member save(Member member) {
+        if(member.getId() == null) {
+            member.setProfile_img("N");
+            em.persist(member);
+        } else {
+            em.merge(member);
+        }
+        return member;
     }
 
     public Member findOne(Long id) {
@@ -33,4 +40,14 @@ public class MemberRepository {
                 .setParameter("userName", userName)
                 .getResultList();
     }
+
+
+    public Optional<Member> findOneByEmail(String email){
+        return em.createQuery("select u from User u where u.email = :email", Member.class)
+                .setParameter("email", email)
+                .getResultList()
+                .stream().findAny();
+    }
+
+
 }
