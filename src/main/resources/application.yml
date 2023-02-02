@@ -20,8 +20,8 @@ spring:
         registration:
           naver:
             client-id: bop1Xit1h1VpZz14ZJuV
-            client-secret: bop1Xit1h1VpZz14ZJuV
-            redirect-uri: "http://localhost:8081/login/oauth2/code/naver"
+            client-secret: kG3SfF1Vh7
+            redirect-uri: "http://localhost:8080/blanken/api/login/oauth2/code/naver"
             authorization-grant-type: authorization_code
             scope: name, email, nickname
             client-name: Naver

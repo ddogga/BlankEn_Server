@@ -32,6 +32,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
     private final HttpSession httpSession;
 
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        System.out.println("service시작");
 
         OAuth2UserService<OAuth2UserRequest, OAuth2User> service = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = service.loadUser(userRequest); // Oath2 정보를 가져옴
