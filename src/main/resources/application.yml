@@ -21,18 +21,22 @@ spring:
           naver:
             client-id: bop1Xit1h1VpZz14ZJuV
             client-secret: bop1Xit1h1VpZz14ZJuV
-            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}"
+            redirect-uri: "http://localhost:8081/login/oauth2/code/naver"
             authorization-grant-type: authorization_code
             scope: name, email, nickname
             client-name: Naver
 
         provider:
           naver:
-            authorization-uri: https://nid.naver.com/oauth2.0/authorize
-            token-uri: https://nid.naver.com/oauth2.0/token
-            user-info-uri: https://openapi.naver.com/v1/nid/me
+            authorization-uri: https://nid.naver.com/oauth2.0/authorize #네이버 로그인 인증을 요청
+            token-uri: https://nid.naver.com/oauth2.0/token #접근 토큰의 발급,갱신,삭제를 요청
+            user-info-uri: https://openapi.naver.com/v1/nid/me #네이버 회원의 프로필을 조회합니다.
             user-name-attribute: response
 
+
+# jwt토큰 시크릿 키 설정
+jwt:
+  secret: SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c$bGLYvkU7zTjEm2H62goqXdyXo4ShA81lbU81DS1Aa2E
 
 
 logging.level:
@@ -40,8 +44,6 @@ logging.level:
   org.hibernate.SQL: debug
   #?로 뜨는 쿼리 파리미터 요소의 타입을 로그로 찍어 줌.
   org.hibernate.type: trace
-
-
 
 
 
