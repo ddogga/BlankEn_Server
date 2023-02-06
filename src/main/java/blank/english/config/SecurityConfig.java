@@ -14,8 +14,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
+
+
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity // 스프링 시큐리티 설정들 활성화
 public class SecurityConfig {
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -45,23 +47,24 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain  filterChain(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests()
+        http.authorizeRequests()//url별 권한 관리 설정 가능
                 .anyRequest().permitAll()
 //			  .antMatchers("/**").authenticated() // 인가된 사용자만 접근 가능하도록 설정
 //			  .antMatchers("게시물등").hasRole(Role.USER.name()) // 특정 ROLE을 가진 사용자만 접근 가능하도록 설정
                 .and()
-                    .oauth2Login()
+                    .oauth2Login()//oauth2로그인 관련 처리
                     .authorizationEndpoint().baseUri("/oauth2/authorize")
                     .authorizationRequestRepository(cookieOAuth2AuthorizationRequestRepository())
                 .and()
                     .redirectionEndpoint()
+
                     .baseUri("/login/oauth2/code/**")
                 .and()
                     .userInfoEndpoint()
-                    .userService(customOAuth2UserService)
+                    .userService(customOAuth2UserService) //OAuth2 인증 과정에서 Authentication을 생성에 필요한 OAuth2User를 반환하는 클래스를 지정
                 .and()
-                    .successHandler(oAuth2AuthenticationSuccessHandler)
-                    .failureHandler(oAuth2AuthenticationFailureHandler)
+                    .successHandler(oAuth2AuthenticationSuccessHandler)//인증을 성공적으로 마친 경우 처리할 클래스를 지정
+                    .failureHandler(oAuth2AuthenticationFailureHandler)//인증을 실패한 경우 처리할 클래스를 지정
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();

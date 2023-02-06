@@ -22,12 +22,18 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+/*
+*
+* JWT 토큰 생성, 토큰 복호화 및 정보 추출, 토큰 유효성 검증 기능이 구현된 클래스
+*/
+
 @Slf4j
 @Component
 public class JwtTokenProvider {
 
     private final Key key;
 
+    //application.yml에 정의된 시크릿키를 가져와서 사용
     public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
         byte[] secretByteKey = DatatypeConverter.parseBase64Binary(secretKey);
         this.key = Keys.hmacShaKeyFor(secretByteKey);

@@ -22,6 +22,10 @@ import blank.english.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 
+/*
+*
+* 커스텀한 OAuth2User를 반환하기 위해 DefaultOAuth2UserService를 상속하여 구현한 클래스스* */
+
 
 @Service
 @Transactional

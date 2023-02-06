@@ -2,10 +2,8 @@ package blank.english.config.auth.filter;
 
 
 import blank.english.config.auth.token.JwtTokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
@@ -16,6 +14,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
+
+/*
+* 클라이언트 요청 시 JWT 인증을 하기 위해 설치하는 Custom Filter로 UsernamePasswordAuthenticationFilter이전에 실행됩니다.
+*
+*/
 
 public class JwtAuthenticationFilter extends GenericFilterBean {
 

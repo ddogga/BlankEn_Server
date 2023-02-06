@@ -21,12 +21,12 @@ spring:
           naver:
             client-id: bop1Xit1h1VpZz14ZJuV
             client-secret: kG3SfF1Vh7
-            redirect-uri: "http://localhost:8080/blanken/api/login/oauth2/code/naver"
+            redirect-uri: "http://localhost:8080/blanken/api/login/oauth2/code/naver" #Authorize 코드를 받을 주소
             authorization-grant-type: authorization_code
             scope: name, email, nickname
             client-name: Naver
 
-        provider:
+        provider: #구글, 페이스북은 provider를 제공하지만 카카오, 네이버는 제공하지 않으므로 필요한 정보를 추가해야함.
           naver:
             authorization-uri: https://nid.naver.com/oauth2.0/authorize #네이버 로그인 인증을 요청
             token-uri: https://nid.naver.com/oauth2.0/token #접근 토큰의 발급,갱신,삭제를 요청
