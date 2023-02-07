@@ -16,12 +16,16 @@ public class Member extends BaseTimeEntity {
     @Column(name = "member_id")
     private Long id;
 
-    //userName이 진짜 아이디
-    @Column(unique=true, name = "user_name")
+    //사용자의 실제 이름
+    @Column(name = "user_name")
     private String userName;
+
+    //사용자 별명
+    private String nickname;
 
     private String password;
 
+    @Column(unique=true)
     private String email;
 
     @Enumerated(EnumType.STRING)
@@ -37,8 +41,9 @@ public class Member extends BaseTimeEntity {
 
 
 
-    public Member(String userName,String password, String email,Role role) {
+    public Member(String userName,String nickname,String password, String email,Role role) {
         this.userName = userName;
+        this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.role = role;
@@ -48,8 +53,9 @@ public class Member extends BaseTimeEntity {
     }
 
 
-    public Member update(String userName, String picture) {
+    public Member update(String userName, String nickname, String picture) {
         this.userName = userName;
+        this.nickname = nickname;
         this.picture = picture;
 
         return this;

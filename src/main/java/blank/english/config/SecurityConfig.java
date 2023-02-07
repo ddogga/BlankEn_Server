@@ -67,6 +67,10 @@ public class SecurityConfig {
                     .failureHandler(oAuth2AuthenticationFailureHandler)//인증을 실패한 경우 처리할 클래스를 지정
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+
+        http.logout().logoutSuccessUrl("/")
+                .logoutUrl("members/logout")
+                .invalidateHttpSession(true);
         return http.build();
     }
 

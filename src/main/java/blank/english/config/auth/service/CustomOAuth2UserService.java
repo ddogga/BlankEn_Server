@@ -24,7 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 /*
 *
-* 커스텀한 OAuth2User를 반환하기 위해 DefaultOAuth2UserService를 상속하여 구현한 클래스스* */
+* 커스텀한 OAuth2User를 반환하기 위해 DefaultOAuth2UserService를 상속하여 구현한 클래스
+*
+*
+* */
 
 
 @Service
@@ -56,9 +59,10 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
     }
 
     // 회원가입 처리.
-    private Member saveOrUpdate(OAuthAttributes attributes){
+    private Member saveOrUpdate(OAuthAttributes attributes){ //해당하는 User의 데이터가 존재한다면 Member 객체로 만들어서 리턴
+
         Member member =  memberRepository.findOneByEmail(attributes.getEmail())
-                .map(entity -> entity.update(attributes.getName(),attributes.getPicture()))//회원 정보수정
+                .map(entity -> entity.update(attributes.getName(),attributes.getNickname(),attributes.getPicture()))//회원 정보수정
                 .orElse(attributes.toEntity());//새 회원 생성
 
         return memberRepository.save(member);
