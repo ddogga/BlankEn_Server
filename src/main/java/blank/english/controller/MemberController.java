@@ -28,7 +28,13 @@ public class MemberController {
 
         //문제가 생기면 hasErrors가 True가 됨.
         if(result.hasErrors()) { return ""; }
-        Member member = new Member(form.getUserName(),form.getNickname(),form.getPassword(), form.getEmail(), Role.USER);
+        Member member = Member.builder()
+                .userName(form.getUserName())
+                .nickname(form.getNickname())
+                .email(form.getEmail())
+                .password(form.getPassword())
+                .role(Role.USER)
+                .build();
 
         return memberService.join(member);
     }

@@ -33,7 +33,13 @@ class BaseTimeEntityTest {
         //given
         LocalDateTime now = LocalDateTime.of(2023,1,1,0,0,0);//
 
-        memberRepository.save(new Member("username","password","email"));
+        memberRepository.save(Member.builder()
+                .userName("username")
+                .nickname("nickname")
+                .email("email")
+                .password("password")
+                .build()
+            );
 
         //when
         List<Member> memberList = memberRepository.findAll();
