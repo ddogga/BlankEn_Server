@@ -1,7 +1,9 @@
 package blank.english.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -40,7 +42,7 @@ public class Member extends BaseTimeEntity {
 
 
 
-
+    @Builder
     public Member(String userName,String nickname,String password, String email,Role role) {
         this.userName = userName;
         this.nickname = nickname;
@@ -59,6 +61,14 @@ public class Member extends BaseTimeEntity {
         this.picture = picture;
 
         return this;
+    }
+
+    public void hashPassword(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
+
+    public boolean checkPassword(String targetPassword, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(targetPassword, this.password);
     }
 
 

@@ -4,10 +4,12 @@ import blank.english.domain.Member;
 import blank.english.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -16,6 +18,7 @@ import java.util.List;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     @Override
@@ -23,20 +26,22 @@ public class MemberServiceImpl implements MemberService {
         if (validateDuplicateMember(member) == 0) {
             return "";
         }
+        member.hashPassword(bCryptPasswordEncoder);
         memberRepository.save(member);
-        return member.getUserName();
+        return member.getNickname();
     }
 
-    @Override
-    public int validateDuplicateMember(Member member) {
 
-        List<Member> findMembers = memberRepository.findByName(member.getUserName());
+    private int validateDuplicateMember(Member member) {
+
+        Optional<Member> findMembers = memberRepository.findOneByEmail(member.getEmail());
         if (!findMembers.isEmpty()) {
             log.info("중복된 회원");
             return 0;
         }
         return 1;
     }
+
 
     @Override
     public List<Member> findMembers() {
