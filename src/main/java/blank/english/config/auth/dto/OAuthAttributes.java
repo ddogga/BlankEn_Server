@@ -30,6 +30,8 @@ public class OAuthAttributes {
     public static OAuthAttributes of(String socialName, String userNameAttributeName, Map<String, Object> attributes){
         if("naver".equals(socialName)) {
             return ofNaver("id", attributes);
+        } else if ("kakao".equals(socialName)) {
+            return ofKakao("id", attributes);
         }
 
         return null;
@@ -64,13 +66,13 @@ public class OAuthAttributes {
     }
 
 
-        public Member toEntity(){
-        return Member.builder()
-                .userName(name)
-                .nickname(nickname)
-                .email(email)
-                .role(Role.USER).build();
-    }
+    public Member toEntity(){
+    return Member.builder()
+            .userName(name)
+            .nickname(nickname)
+            .email(email)
+            .role(Role.USER).build();
+}
 
 
 

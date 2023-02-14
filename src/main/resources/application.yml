@@ -27,7 +27,7 @@ spring:
             client-name: Naver
 
           kakao:
-            client-id: REST API 키
+            client-id: de4974aeadfbbd61f1898bdc24399048
             redirect-uri: "http://localhost:8080/blanken/api/login/oauth2/code/kakao"
             client-authentication-method: POST
             authorization-grant-type: authorization_code

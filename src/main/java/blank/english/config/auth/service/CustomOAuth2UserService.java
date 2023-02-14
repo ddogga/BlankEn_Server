@@ -66,6 +66,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
                 .orElse(attributes.toEntity());//새 회원 생성
 
         return memberRepository.save(member);
+
     }
 
 
