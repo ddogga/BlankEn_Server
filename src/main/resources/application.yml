@@ -7,7 +7,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
         # sysout으로 로그를 찍는 코드이다.
@@ -29,10 +29,17 @@ spring:
           kakao:
             client-id: de4974aeadfbbd61f1898bdc24399048
             redirect-uri: "http://localhost:8080/blanken/api/login/oauth2/code/kakao"
-            client-authentication-method: POST
+            client-authentication-method: POST #카카오에서 client-authentication-method: POST을 안해주면 에러가 남.
             authorization-grant-type: authorization_code
             scope: profile_nickname, account_email #동의 항목
             client-name: Kakao
+
+          google:
+            client-id: 1067136826229-oumc1taocs642a4d9ids4a069hb016s2.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: "http://localhost:8080/blanken/api/login/oauth2/code/google"
+            scope: profile, email #동의 항목
+            client-name: Google
 
         provider: #구글, 페이스북은 provider를 제공하지만 카카오, 네이버는 제공하지 않으므로 필요한 정보를 추가해야함.
           naver:

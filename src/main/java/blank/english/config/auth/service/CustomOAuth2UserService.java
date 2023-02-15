@@ -62,6 +62,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService{
     private Member saveOrUpdate(OAuthAttributes attributes){ //해당하는 User의 데이터가 존재한다면 Member 객체로 만들어서 리턴
 
         Member member =  memberRepository.findOneByEmail(attributes.getEmail())
+
+                /*
+                * 고민 사항
+                * email은 유니크하게 유지 해야 함. -> 로그인시 id로 동작하기 때문
+                * 카카오톡 또한 email이 id이기 때문에 만약 카카오 계정의 id가 구글 이메일일 시
+                * 해당 구글 이메일로 이 어플리케이션에 로그인한다면 계정이 연동됨.
+                * 연동 되는 것 뿐만 아니라, 카카오 scope와 구글 scope이 달라서 아래 회원정보수정 부분에서
+                * 각 가져오는 scope에 맞게 변동됨.
+                * 이걸 그대로 나둬도 될지, 아님 조치를 취해야 할지 모르겠다..
+                */
                 .map(entity -> entity.update(attributes.getName(),attributes.getNickname(),attributes.getPicture()))//회원 정보수정
                 .orElse(attributes.toEntity());//새 회원 생성
 
