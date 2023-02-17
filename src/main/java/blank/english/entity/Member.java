@@ -1,12 +1,10 @@
-package blank.english.domain;
+package blank.english.entity;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,15 +38,19 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member")
     private List<QuizSet> quizSets = new ArrayList<>();
 
+    @Column(name = "email_auth")
+    private boolean emailAuth;
+
 
 
     @Builder
-    public Member(String userName,String nickname,String password, String email,Role role) {
+    public Member(String userName,String nickname,String password, String email,Role role,Boolean emailAuth) {
         this.userName = userName;
         this.nickname = nickname;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.emailAuth = emailAuth;
     }
 
     public Member() {

@@ -1,4 +1,4 @@
-package blank.english.domain;
+package blank.english.entity;
 
 import lombok.Getter;
 

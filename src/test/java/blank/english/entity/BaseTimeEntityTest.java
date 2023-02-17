@@ -1,4 +1,4 @@
-package blank.english.domain;
+package blank.english.entity;
 
 import blank.english.repository.MemberRepository;
 import blank.english.service.MemberService;
@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
 
 
 @SpringBootTest

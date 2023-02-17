@@ -1,17 +1,16 @@
 package blank.english.controller;
 
 
-import blank.english.domain.Member;
-import blank.english.domain.Role;
+import blank.english.dto.MemberForm;
+import blank.english.entity.Member;
+import blank.english.entity.Role;
 import blank.english.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.IOException;
 
 

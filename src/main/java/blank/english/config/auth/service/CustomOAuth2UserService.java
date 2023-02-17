@@ -3,7 +3,7 @@ package blank.english.config.auth.service;
 
 import blank.english.config.auth.dto.OAuthAttributes;
 import blank.english.config.auth.dto.SessionUser;
-import blank.english.domain.Member;
+import blank.english.entity.Member;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

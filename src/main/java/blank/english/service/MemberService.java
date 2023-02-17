@@ -1,6 +1,6 @@
 package blank.english.service;
 
-import blank.english.domain.Member;
+import blank.english.entity.Member;
 
 import java.util.List;
 

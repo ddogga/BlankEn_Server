@@ -1,6 +1,6 @@
 package blank.english.repository;
 
-import blank.english.domain.Member;
+import blank.english.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

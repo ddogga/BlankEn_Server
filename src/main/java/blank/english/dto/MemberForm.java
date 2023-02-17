@@ -1,4 +1,4 @@
-package blank.english.controller;
+package blank.english.dto;
 
 
 import lombok.Getter;

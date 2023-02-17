@@ -1,6 +1,6 @@
 package blank.english.service;
 
-import blank.english.domain.Member;
+import blank.english.entity.Member;
 import blank.english.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,8 +1,8 @@
 package blank.english.config.auth.dto;
 
 
-import blank.english.domain.Member;
-import blank.english.domain.Role;
+import blank.english.entity.Member;
+import blank.english.entity.Role;
 import lombok.Builder;
 import lombok.Getter;
 
