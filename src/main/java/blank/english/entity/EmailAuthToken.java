@@ -24,10 +24,9 @@ public class EmailAuthToken {
     @Column(name = "email_auth_token_id", length = 36)
     private String id;
 
-    private String email;
-    private String authToken;
-    private Boolean expired;
-    private LocalDateTime expireDate;
+    private String email; //사용자 이메일
+    private Boolean expired; //토큰 만료 여부
+    private LocalDateTime expireDate; //만료일
 
     public static EmailAuthToken createEmailAuthToken(String email){
         EmailAuthToken emailAuthToken = new EmailAuthToken();

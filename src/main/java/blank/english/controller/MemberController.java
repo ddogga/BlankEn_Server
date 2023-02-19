@@ -1,6 +1,7 @@
 package blank.english.controller;
 
 
+import blank.english.dto.JoinResponseDTO;
 import blank.english.dto.MemberForm;
 import blank.english.entity.Member;
 import blank.english.entity.Role;
@@ -23,10 +24,10 @@ public class MemberController {
 
 
     @RequestMapping(value = "/members/new", method = RequestMethod.POST)
-    public String create(@RequestBody MemberForm form, BindingResult result) {
+    public JoinResponseDTO create(@RequestBody MemberForm form, BindingResult result) {
 
         //문제가 생기면 hasErrors가 True가 됨.
-        if(result.hasErrors()) { return ""; }
+//        if(result.hasErrors()) { return ""; }//예외 생성하기
         Member member = Member.builder()
                 .userName(form.getUserName())
                 .nickname(form.getNickname())

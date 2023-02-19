@@ -1,6 +1,9 @@
 package blank.english.service;
 
+import blank.english.dto.JoinResponseDTO;
+import blank.english.entity.EmailAuthToken;
 import blank.english.entity.Member;
+import blank.english.repository.EmailRepository;
 import blank.english.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,17 +21,29 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final EmailRepository emailRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
 
     @Transactional
     @Override
-    public String join(Member member) {
-        if (validateDuplicateMember(member) == 0) {
-            return "";
-        }
+    public JoinResponseDTO join(Member member) {
+//        if (validateDuplicateMember(member) != 1) {
+//            return "";//예외 생성하기
+//        }
         member.hashPassword(bCryptPasswordEncoder);
         memberRepository.save(member);
-        return member.getNickname();
+        EmailAuthToken emailAuthToken = emailRepository.save(
+                EmailAuthToken.createEmailAuthToken(member.getEmail()));
+
+        return createJoinResponseDTO(member, emailAuthToken.getId());
+    }
+
+    private JoinResponseDTO createJoinResponseDTO(Member member, String tokenId){
+        return JoinResponseDTO.builder()
+                .nickName(member.getNickname())
+                .email(member.getEmail())
+                .tokenId(tokenId)
+                .build();
     }
 
 
@@ -41,6 +56,8 @@ public class MemberServiceImpl implements MemberService {
         }
         return 1;
     }
+
+
 
 
     @Override
