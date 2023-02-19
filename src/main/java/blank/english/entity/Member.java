@@ -1,7 +1,9 @@
 package blank.english.entity;
 
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -10,6 +12,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue
@@ -53,8 +56,6 @@ public class Member extends BaseTimeEntity {
         this.emailAuth = emailAuth;
     }
 
-    public Member() {
-    }
 
     public Member update(String userName, String picture) {
         this.userName = userName;
