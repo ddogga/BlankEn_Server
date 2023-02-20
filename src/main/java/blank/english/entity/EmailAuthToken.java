@@ -6,11 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
+
 
 @Entity
 @Getter
@@ -19,17 +18,18 @@ public class EmailAuthToken {
 
     private static final long EMAIL_TOKEN_EXPIRATION_TIME = 5L;//토큰 만료 제한시간 5분
 
-    @Id @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2") // uuid : Hibernate에서 기본적으로 제공하는 식별자
-    @Column(name = "email_auth_token_id", length = 36)
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    private String uuid;
     private String email; //사용자 이메일
     private Boolean expired; //토큰 만료 여부
     private LocalDateTime expireDate; //만료일
 
     public static EmailAuthToken createEmailAuthToken(String email){
         EmailAuthToken emailAuthToken = new EmailAuthToken();
+        emailAuthToken.uuid = UUID.randomUUID().toString();
         emailAuthToken.expireDate = LocalDateTime.now().plusMinutes(EMAIL_TOKEN_EXPIRATION_TIME);
         emailAuthToken.email = email;
         emailAuthToken.expired = false;

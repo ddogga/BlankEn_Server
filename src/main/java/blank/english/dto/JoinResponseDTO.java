@@ -2,7 +2,9 @@ package blank.english.dto;
 
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class JoinResponseDTO {
 
     String nickName;

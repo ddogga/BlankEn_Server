@@ -18,16 +18,14 @@ public class EmailRepository {
     private final EntityManager em;
 
     public EmailAuthToken save(EmailAuthToken emailAuthToken) {
-        log.info(emailAuthToken.getId());
-
         em.merge(emailAuthToken);
         return emailAuthToken;
     }
 
     public Optional<EmailAuthToken> findValidTokenByEmail(String email, String tokenId, LocalDateTime currentTime) {
-        return em.createQuery("select t from EmailAuthToken t where t.email = :email and t.id = :id and t.expireDate > :date and t.expired = :expired", EmailAuthToken.class)
+        return em.createQuery("select t from EmailAuthToken t where t.email = :email and t.uuid = :uuid and t.expireDate > :date and t.expired = :expired", EmailAuthToken.class)
                 .setParameter("email", email)
-                .setParameter("id", tokenId)
+                .setParameter("uuid", tokenId)
                 .setParameter("date", currentTime)
                 .setParameter("expired", false)
                 .getResultList()

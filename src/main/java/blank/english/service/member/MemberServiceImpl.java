@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,12 +38,13 @@ public class MemberServiceImpl implements MemberService {
 //        }
         member.hashPassword(bCryptPasswordEncoder);
         memberRepository.save(member);
-        EmailAuthToken emailAuthToken = emailRepository.save(
-                EmailAuthToken.createEmailAuthToken(member.getEmail()));
 
-        emailSanderService.sender(emailAuthToken.getEmail(),emailAuthToken.getId());
+        EmailAuthToken token = EmailAuthToken.createEmailAuthToken(member.getEmail());
+        emailRepository.save(token);
 
-        return createJoinResponseDTO(member, emailAuthToken.getId());
+        emailSanderService.sender(token.getEmail(),token.getUuid());
+
+        return createJoinResponseDTO(member, token.getUuid());
     }
 
     private JoinResponseDTO createJoinResponseDTO(Member member, String tokenId){
@@ -55,12 +57,12 @@ public class MemberServiceImpl implements MemberService {
 
     /**
     * 이메일 인증 로직
-    * @param requestDto
+    *
     */
 
     @Transactional
     public void confirmEmail(EmailAuthRequestDto requestDto ) {
-        EmailAuthToken fineEmailAuthToken = emailRepository.findValidTokenByEmail(requestDto.getEmail(),requestDto.getTokenId(), LocalDateTime.now())
+        EmailAuthToken fineEmailAuthToken = emailRepository.findValidTokenByEmail(requestDto.getEmail(),requestDto.getUuid(), LocalDateTime.now())
                 .orElseThrow(EmailAuthTokenNotFoundException::new);
         Member findMember = memberRepository.findOneByEmail(requestDto.getEmail()).orElseThrow(MemberNotFoundException::new);
         fineEmailAuthToken.useToken();	// 토큰 만료

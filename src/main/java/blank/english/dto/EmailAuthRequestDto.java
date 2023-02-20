@@ -1,10 +1,12 @@
 package blank.english.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class EmailAuthRequestDto {
 
-    String email;
-    String tokenId;
+    private String email;
+    private String uuid;
 }

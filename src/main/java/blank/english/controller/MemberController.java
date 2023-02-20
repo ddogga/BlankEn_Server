@@ -34,6 +34,7 @@ public class MemberController {
                 .email(form.getEmail())
                 .password(form.getPassword())
                 .role(Role.USER)
+                .emailAuth(false)
                 .build();
 
         return memberService.join(member);
@@ -48,8 +49,8 @@ public class MemberController {
         return "logout";
     }
 
-    @RequestMapping(value = "/members/confirm-email")
-    public String confirmEmail(@RequestBody EmailAuthRequestDto requestDto) {
+    @RequestMapping(value = "/members/confirm-email", method = RequestMethod.GET)
+    public String confirmEmail(@ModelAttribute EmailAuthRequestDto requestDto) {
         memberService.confirmEmail(requestDto);
         return "인증이 완료되었습니다.";
     }
