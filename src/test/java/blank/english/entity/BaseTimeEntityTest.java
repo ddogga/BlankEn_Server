@@ -1,7 +1,7 @@
 package blank.english.entity;
 
-import blank.english.repository.MemberRepository;
-import blank.english.service.MemberService;
+import blank.english.repository.member.MemberRepository;
+import blank.english.service.member.MemberService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

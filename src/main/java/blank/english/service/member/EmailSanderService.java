@@ -1,4 +1,4 @@
-package blank.english.service;
+package blank.english.service.member;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -14,9 +14,9 @@ public class EmailSanderService {
     @Async
     public void sender(String email, String emailAuthTokenId) {
         SimpleMailMessage smm = new SimpleMailMessage();
-        smm.setTo(email + "@gmail.com");
+        smm.setTo(email);
         smm.setSubject("회원가입 이메일 인증");
-        smm.setText("http://localhost:8080/sign/confirm-email?email="+email+"&authToken="+emailAuthTokenId);
+        smm.setText("http://localhost:8080/blanken/api/members/confirm-email?email="+email+"&authToken="+emailAuthTokenId);
 
         javaMailSender.send(smm);
     }

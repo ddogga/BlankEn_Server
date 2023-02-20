@@ -1,4 +1,4 @@
-package blank.english.repository;
+package blank.english.repository.member;
 
 import blank.english.entity.Member;
 import lombok.RequiredArgsConstructor;

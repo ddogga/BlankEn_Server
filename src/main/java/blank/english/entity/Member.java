@@ -84,4 +84,8 @@ public class Member extends BaseTimeEntity {
     public void setProfile_img(String picture) {
         this.picture = picture;
     }
+
+    public void emailVerifiedSuccess() {
+        this.emailAuth = true;
+    }
 }

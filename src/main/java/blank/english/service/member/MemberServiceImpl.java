@@ -1,16 +1,20 @@
-package blank.english.service;
+package blank.english.service.member;
 
+import blank.english.dto.EmailAuthRequestDto;
 import blank.english.dto.JoinResponseDTO;
 import blank.english.entity.EmailAuthToken;
 import blank.english.entity.Member;
-import blank.english.repository.EmailRepository;
-import blank.english.repository.MemberRepository;
+import blank.english.exception.EmailAuthTokenNotFoundException;
+import blank.english.exception.MemberNotFoundException;
+import blank.english.repository.member.EmailRepository;
+import blank.english.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final EmailRepository emailRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
+    private final EmailSanderService emailSanderService;
 
     @Transactional
     @Override
@@ -35,6 +40,8 @@ public class MemberServiceImpl implements MemberService {
         EmailAuthToken emailAuthToken = emailRepository.save(
                 EmailAuthToken.createEmailAuthToken(member.getEmail()));
 
+        emailSanderService.sender(emailAuthToken.getEmail(),emailAuthToken.getId());
+
         return createJoinResponseDTO(member, emailAuthToken.getId());
     }
 
@@ -44,6 +51,20 @@ public class MemberServiceImpl implements MemberService {
                 .email(member.getEmail())
                 .tokenId(tokenId)
                 .build();
+    }
+
+    /**
+    * 이메일 인증 로직
+    * @param requestDto
+    */
+
+    @Transactional
+    public void confirmEmail(EmailAuthRequestDto requestDto ) {
+        EmailAuthToken fineEmailAuthToken = emailRepository.findValidTokenByEmail(requestDto.getEmail(),requestDto.getTokenId(), LocalDateTime.now())
+                .orElseThrow(EmailAuthTokenNotFoundException::new);
+        Member findMember = memberRepository.findOneByEmail(requestDto.getEmail()).orElseThrow(MemberNotFoundException::new);
+        fineEmailAuthToken.useToken();	// 토큰 만료
+        findMember.emailVerifiedSuccess();	// 유저의 이메일 인증 값 변경
     }
 
 
@@ -56,7 +77,6 @@ public class MemberServiceImpl implements MemberService {
         }
         return 1;
     }
-
 
 
 
