@@ -6,8 +6,10 @@ import blank.english.config.auth.handler.OAuth2AuthenticationSuccessHandler;
 import blank.english.config.auth.repository.HttpCookieOAuth2AuthorizationRequestRepository;
 import blank.english.config.auth.service.CustomOAuth2UserService;
 import blank.english.config.auth.token.JwtTokenProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,10 +19,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 
-
 @Configuration
+@RequiredArgsConstructor
 @EnableWebSecurity // 스프링 시큐리티 설정들 활성화
-public class SecurityConfig {
+public class SecurityConfig{
 
 
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -29,12 +31,6 @@ public class SecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
 
 
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler, OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler, JwtTokenProvider jwtTokenProvider) {
-        this.customOAuth2UserService = customOAuth2UserService;
-        this.oAuth2AuthenticationSuccessHandler = oAuth2AuthenticationSuccessHandler;
-        this.oAuth2AuthenticationFailureHandler = oAuth2AuthenticationFailureHandler;
-        this.jwtTokenProvider = jwtTokenProvider;
-    }
 
 
     @Bean
@@ -53,13 +49,16 @@ public class SecurityConfig {
     }
 
 
+
+
     @Bean
     public SecurityFilterChain  filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable(); //post 방식으로 값을 전송할 때 token을 사용해야하는 보안 설정을 해제제
-       http.authorizeRequests()//url별 권한 관리 설정 가능
-                .anyRequest().permitAll()
-//			  .antMatchers("/**").authenticated() // 인가된 사용자만 접근 가능하도록 설정
-//			  .antMatchers("게시물등").hasRole(Role.USER.name()) // 특정 ROLE을 가진 사용자만 접근 가능하도록 설정
+        http.csrf().disable(); //post 방식으로 값을 전송할 때 token을 사용해야하는 보안 설정을 해제
+        http.authorizeRequests()//url별 권한 관리 설정 가능
+
+                .antMatchers("/members/login").permitAll() //
+        //			  .antMatchers("게시물등").hasRole(Role.USER.name()) // 특정 ROLE을 가진 사용자만 접근 가능하도록 설정
+
                 .and()
                     .oauth2Login()//oauth2로그인 관련 처리
                     .authorizationEndpoint().baseUri("/oauth2/authorize")
@@ -76,6 +75,8 @@ public class SecurityConfig {
                     .failureHandler(oAuth2AuthenticationFailureHandler)//인증을 실패한 경우 처리할 클래스를 지정
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+
+
 
         http.logout().logoutSuccessUrl("/")
                 .logoutUrl("members/logout")

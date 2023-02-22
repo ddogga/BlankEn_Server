@@ -2,6 +2,7 @@ package blank.english.service.member;
 
 import blank.english.dto.EmailAuthRequestDto;
 import blank.english.dto.JoinResponseDTO;
+import blank.english.dto.LoginForm;
 import blank.english.entity.Member;
 
 import java.util.List;
@@ -9,6 +10,8 @@ import java.util.List;
 public interface MemberService {
 
     JoinResponseDTO join(Member member);
+
+    String login(LoginForm form);
 
     List<Member> findMembers();
 

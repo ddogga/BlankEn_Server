@@ -1,7 +1,10 @@
 package blank.english.service.member;
 
+import blank.english.config.auth.dto.SessionUser;
+import blank.english.config.auth.token.JwtTokenProvider;
 import blank.english.dto.EmailAuthRequestDto;
 import blank.english.dto.JoinResponseDTO;
+import blank.english.dto.LoginForm;
 import blank.english.entity.EmailAuthToken;
 import blank.english.entity.Member;
 import blank.english.exception.EmailAuthTokenNotFoundException;
@@ -10,10 +13,14 @@ import blank.english.repository.member.EmailRepository;
 import blank.english.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +36,8 @@ public class MemberServiceImpl implements MemberService {
     private final EmailRepository emailRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final EmailSanderService emailSanderService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final HttpSession httpSession;
 
     @Transactional
     @Override
@@ -45,6 +54,22 @@ public class MemberServiceImpl implements MemberService {
         emailSanderService.sender(token.getEmail(),token.getUuid());
 
         return createJoinResponseDTO(member, token.getUuid());
+    }
+
+    @Transactional
+    @Override
+    public String login(LoginForm form) {
+
+        Member member = memberRepository.findOneByEmail(form.getEmail())
+                .orElseThrow(MemberNotFoundException::new);
+
+        if(!bCryptPasswordEncoder.matches(form.getPassword(),member.getPassword())){
+            return "비밀번호가 일치하지 않습니다.";
+        }
+
+        httpSession.setAttribute("user", new SessionUser(member)); //세션에 사용자 정보 저장
+
+        return jwtTokenProvider.createToken(member.getEmail(),member.getRole());
     }
 
     private JoinResponseDTO createJoinResponseDTO(Member member, String tokenId){

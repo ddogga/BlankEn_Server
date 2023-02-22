@@ -3,6 +3,7 @@ package blank.english.controller;
 
 import blank.english.dto.EmailAuthRequestDto;
 import blank.english.dto.JoinResponseDTO;
+import blank.english.dto.LoginForm;
 import blank.english.dto.MemberForm;
 import blank.english.entity.Member;
 import blank.english.entity.Role;
@@ -38,6 +39,11 @@ public class MemberController {
                 .build();
 
         return memberService.join(member);
+    }
+
+    @RequestMapping(value = "/members/login", method = RequestMethod.POST)
+    public String login(@RequestBody LoginForm form) {
+        return memberService.login(form);
     }
 
     @RequestMapping(value = "/members/logout", method = RequestMethod.POST)

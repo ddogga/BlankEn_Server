@@ -82,7 +82,9 @@ public class OAuthAttributes {
             .userName(name)
             .nickname(nickname)
             .email(email)
-            .role(Role.USER).build();
+            .role(Role.USER)
+            .emailAuth(true)
+            .build();
 }
 
 
