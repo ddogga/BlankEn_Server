@@ -3,11 +3,9 @@ package blank.english.dto;
 
 import lombok.Getter;
 
-import javax.validation.constraints.NotEmpty;
-
 
 @Getter
-public class MemberForm {
+public class JoinForm {
 
     private String userName;
 

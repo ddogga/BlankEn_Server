@@ -1,10 +1,7 @@
 package blank.english.controller;
 
 
-import blank.english.dto.EmailAuthRequestDto;
-import blank.english.dto.JoinResponseDTO;
-import blank.english.dto.LoginForm;
-import blank.english.dto.MemberForm;
+import blank.english.dto.*;
 import blank.english.entity.Member;
 import blank.english.entity.Role;
 import blank.english.service.member.MemberService;
@@ -15,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Map;
 
 
 @RestController
@@ -26,7 +24,7 @@ public class MemberController {
 
 
     @RequestMapping(value = "/members/new", method = RequestMethod.POST)
-    public JoinResponseDTO create(@RequestBody MemberForm form, BindingResult result) {
+    public JoinResponseDTO create(@RequestBody JoinForm form, BindingResult result) {
         //문제가 생기면 hasErrors가 True가 됨.
 //        if(result.hasErrors()) { return ""; }//예외 생성하기
         Member member = Member.builder()
@@ -55,9 +53,21 @@ public class MemberController {
         return "logout";
     }
 
-    @RequestMapping(value = "/members/confirm-email", method = RequestMethod.GET)
+    @RequestMapping(value = "/members/confirm_email", method = RequestMethod.GET)
     public String confirmEmail(@ModelAttribute EmailAuthRequestDto requestDto) {
         memberService.confirmEmail(requestDto);
         return "인증이 완료되었습니다.";
+    }
+
+    @RequestMapping(value = "/members/send_pass_mail", method = RequestMethod.POST)
+    public String sendPasswordChangeEmail(@RequestBody Map<String,String> emailMap) throws IOException {
+        System.out.println("email = " + emailMap.get("email"));
+        return memberService.sendPasswordChangeEmail(emailMap.get("email"));
+    }
+
+    @RequestMapping(value = "/members/new_password", method = RequestMethod.PUT)
+    public String updatePassword(@RequestParam String uuid,String email, @RequestBody ChangeMemberInfoForm changeMemberInfoForm) {
+        memberService.updatePassword(email,uuid, changeMemberInfoForm.getPassword());
+        return "비밀번호 변경 완료";
     }
 }

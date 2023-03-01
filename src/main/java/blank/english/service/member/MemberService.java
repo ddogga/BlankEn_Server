@@ -19,4 +19,8 @@ public interface MemberService {
 
     void confirmEmail(EmailAuthRequestDto requestDto);
 
+    String sendPasswordChangeEmail(String email);
+
+    void updatePassword(String email, String uuid, String password);
+
 }

@@ -72,6 +72,13 @@ public class Member extends BaseTimeEntity {
         return this;
     }
 
+
+    public Member passwordUpdate(String password, PasswordEncoder passwordEncoder) {
+        this.password = password;
+        hashPassword(passwordEncoder);
+
+        return this;
+    }
     public void hashPassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
     }
