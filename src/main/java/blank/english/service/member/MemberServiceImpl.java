@@ -30,7 +30,7 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final TokenRepository emailRepository;
+    private final TokenRepository tokenRepository;
     private final PasswordEncoder bCryptPasswordEncoder;
     private final EmailSanderService emailSanderService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -46,7 +46,7 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
 
         EmailAuthToken token = EmailAuthToken.createEmailAuthToken(member.getEmail());
-        emailRepository.save(token);
+        tokenRepository.save(token);
 
         emailSanderService.sender(token.getEmail(),token.getUuid());
 
@@ -84,7 +84,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     public void confirmEmail(EmailAuthRequestDto requestDto ) {
-        EmailAuthToken findEmailAuthToken = emailRepository.findValidTokenByEmail(requestDto.getEmail(),requestDto.getUuid(), LocalDateTime.now())
+        EmailAuthToken findEmailAuthToken = tokenRepository.findValidTokenByEmail(requestDto.getEmail(),requestDto.getUuid(), LocalDateTime.now())
                 .orElseThrow(EmailAuthTokenNotFoundException::new);
         Member findMember = memberRepository.findOneByEmail(requestDto.getEmail()).orElseThrow(MemberNotFoundException::new);
         findEmailAuthToken.useToken();	// 토큰 만료
@@ -107,19 +107,22 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(MemberNotFoundException::new);
 
         ResetPasswordToken resetPasswordToken = ResetPasswordToken.createRestPasswordToken(email);
+        tokenRepository.save(resetPasswordToken);
         emailSanderService.sendPassLink(resetPasswordToken.getUuid(), email);
         return email;
     }
 
+    @Transactional
     public void updatePassword(String email, String uuid, String password) {
-        ResetPasswordToken findPasswordResetToken = emailRepository.findPassTokenByEmail(email,uuid, LocalDateTime.now())
+        log.info("비밀번호 번경 서비스");
+        ResetPasswordToken findPasswordResetToken = tokenRepository.findPassTokenByEmail(email,uuid, LocalDateTime.now())
                 .orElseThrow(EmailAuthTokenNotFoundException::new);
         findPasswordResetToken.useToken();	// 토큰 만료
 
         Member findMember = memberRepository.findOneByEmail(email)
-                .map(entity -> entity.passwordUpdate(password,bCryptPasswordEncoder))
                 .orElseThrow(MemberNotFoundException::new);
 
+        findMember.passwordUpdate(password,bCryptPasswordEncoder);
     }
 
 

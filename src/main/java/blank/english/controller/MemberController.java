@@ -66,7 +66,9 @@ public class MemberController {
     }
 
     @RequestMapping(value = "/members/new_password", method = RequestMethod.PUT)
-    public String updatePassword(@RequestParam String uuid,String email, @RequestBody ChangeMemberInfoForm changeMemberInfoForm) {
+    public String updatePassword(@RequestParam String email, String uuid, @RequestBody ChangeMemberInfoForm changeMemberInfoForm) {
+        System.out.println("email = " + email);
+        System.out.println("uuid = " + uuid);
         memberService.updatePassword(email,uuid, changeMemberInfoForm.getPassword());
         return "비밀번호 변경 완료";
     }
