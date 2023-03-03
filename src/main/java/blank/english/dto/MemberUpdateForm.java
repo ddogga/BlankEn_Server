@@ -4,7 +4,7 @@ package blank.english.dto;
 import lombok.Getter;
 
 @Getter
-public class ChangeMemberInfoForm {
+public class MemberUpdateForm {
 
     private String userName;
     private String nickname;

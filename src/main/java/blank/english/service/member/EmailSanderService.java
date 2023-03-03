@@ -16,7 +16,7 @@ public class EmailSanderService {
     @Async
     public void sender(String email, String uuid) {
         SimpleMailMessage smm = new SimpleMailMessage();
-        smm.setFrom("");//보내는 사람 이메일
+        smm.setFrom("fpdl1gkgk@naver.com");//보내는 사람 이메일
         smm.setTo(email); //받는 사람 이메일
         smm.setSubject("회원가입 이메일 인증");
         smm.setText("http://localhost:8080/blanken/api/members/confirm_email?email="+email+"&uuid="+uuid);

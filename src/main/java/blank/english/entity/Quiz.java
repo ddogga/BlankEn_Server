@@ -27,4 +27,9 @@ public class Quiz {
 
     private int num;
 
+
+    public void setQuizSet(QuizSet quizSet){
+        this.quizSet = quizSet;
+    }
+
 }
