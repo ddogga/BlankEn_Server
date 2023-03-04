@@ -29,6 +29,7 @@ public class QuizServiceImpl implements QuizService {
     private QuizSet makeQuizSet(QuizSetSaveForm quizForm) {
         return QuizSet.builder()
                 .member(findMemberByEmail(quizForm.getEmail()))
+                .titleImg(quizForm.getTitleImg())
                 .quizList(quizForm.getQuizList())
                 .title(quizForm.getTitle())
                 .contents(quizForm.getContents())

@@ -1,6 +1,7 @@
 package blank.english.entity;
 
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -16,6 +17,8 @@ public class Quiz {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "quizset_id")
     private QuizSet quizSet;
+
+    private String originalQuizImgName;
 
     private String firstSentence;
 
