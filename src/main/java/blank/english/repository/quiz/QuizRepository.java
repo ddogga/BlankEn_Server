@@ -1,7 +1,7 @@
 package blank.english.repository.quiz;
 
 
-import blank.english.entity.QuizSet;
+import blank.english.entity.quiz.QuizSet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

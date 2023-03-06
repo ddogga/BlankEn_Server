@@ -1,5 +1,7 @@
-package blank.english.entity;
+package blank.english.entity.quiz;
 
+import blank.english.entity.Member;
+import blank.english.entity.ShareState;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -1,7 +1,8 @@
-package blank.english.entity;
+package blank.english.entity.quiz;
 
+import blank.english.entity.quiz.QuizSet;
+import lombok.Builder;
 import lombok.Getter;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 
@@ -18,7 +19,7 @@ public class Quiz {
     @JoinColumn(name = "quizset_id")
     private QuizSet quizSet;
 
-    private String originalQuizImgName;
+    private String quizImgName;
 
     private String firstSentence;
 
@@ -30,6 +31,15 @@ public class Quiz {
 
     private int num;
 
+    @Builder
+    public Quiz(String quizImgName, String firstSentence, String blank, String lastSentence, String expression, int num) {
+        this.quizImgName = quizImgName;
+        this.firstSentence = firstSentence;
+        this.blank = blank;
+        this.lastSentence = lastSentence;
+        this.expression = expression;
+        this.num = num;
+    }
 
     public void setQuizSet(QuizSet quizSet){
         this.quizSet = quizSet;

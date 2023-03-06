@@ -1,5 +1,6 @@
 package blank.english.entity;
 
+import blank.english.entity.quiz.QuizSet;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
