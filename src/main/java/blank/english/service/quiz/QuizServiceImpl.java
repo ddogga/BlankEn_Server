@@ -2,11 +2,14 @@ package blank.english.service.quiz;
 
 import blank.english.dto.QuizDto;
 import blank.english.dto.QuizSetSaveForm;
+import blank.english.entity.Category;
 import blank.english.entity.Member;
 import blank.english.entity.quiz.Quiz;
 import blank.english.entity.quiz.QuizSet;
+import blank.english.exception.CategoryNotFountException;
 import blank.english.exception.MemberNotFoundException;
 import blank.english.repository.member.MemberRepository;
+import blank.english.repository.quiz.CategoryRepository;
 import blank.english.repository.quiz.QuizRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,7 @@ public class QuizServiceImpl implements QuizService {
     private final FileUploadService fileUploadService;
     private final MemberRepository memberRepository;
     private final QuizRepository quizRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public void createQuizSet(QuizSetSaveForm quizForm) {
@@ -41,6 +45,7 @@ public class QuizServiceImpl implements QuizService {
                 .quizList(makeQuizListByQuizDtoList(quizForm.getQuizList()))
                 .title(quizForm.getTitle())
                 .contents(quizForm.getContents())
+                .category(findCategoryByName(quizForm.getCategory()))
                 .build();
     }
 
@@ -67,7 +72,14 @@ public class QuizServiceImpl implements QuizService {
     }
 
     private Member findMemberByEmail(String email) {
+        System.out.println("email = " + email);
         return memberRepository.findOneByEmail(email)
                 .orElseThrow(MemberNotFoundException::new);
+    }
+
+    private Category findCategoryByName(String name) {
+        System.out.println("name = " + name);
+        return categoryRepository.findOneByName(name)
+                .orElseThrow(CategoryNotFountException::new);
     }
 }

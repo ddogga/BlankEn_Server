@@ -38,7 +38,6 @@ public class Member extends BaseTimeEntity {
 
     private String picture;
 
-
     @OneToMany(mappedBy = "member")
     private List<QuizSet> quizSets = new ArrayList<>();
 

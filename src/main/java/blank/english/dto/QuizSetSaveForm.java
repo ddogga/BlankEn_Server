@@ -16,6 +16,7 @@ public class QuizSetSaveForm {
     private String contents;
     private String email;
     private List<QuizDto> quizList;
+    private String category;
 
 
 

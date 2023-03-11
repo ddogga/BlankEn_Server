@@ -1,5 +1,6 @@
 package blank.english.entity.quiz;
 
+import blank.english.entity.Category;
 import blank.english.entity.Member;
 import blank.english.entity.ShareState;
 import lombok.AccessLevel;
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javax.persistence.FetchType.LAZY;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -22,12 +25,16 @@ public class QuizSet {
     @Column(name = "quizset_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @OneToMany(mappedBy = "quizSet", cascade = CascadeType.ALL)
     private List<Quiz> quizList = new ArrayList<>();
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 
 //    @OneToOne(fetch = FetchType.LAZY)
@@ -47,12 +54,12 @@ public class QuizSet {
     private int goodNums;
 
     private int views;
-
     private ShareState state;
 
 
+
     @Builder
-    public QuizSet(Member member, List<Quiz> quizList, String titleImg, String title, String contents, LocalDateTime writeDate, ShareState state) {
+    public QuizSet(Member member, List<Quiz> quizList, String titleImg, String title, String contents, LocalDateTime writeDate, ShareState state, Category category) {
         this.member = member;
         this.titleImg = titleImg;
         this.title = title;
@@ -63,6 +70,7 @@ public class QuizSet {
         for (Quiz quiz : quizList) {
             addQuiz(quiz);
         }
+        setCategory(category);
     }
 
 
@@ -71,4 +79,12 @@ public class QuizSet {
         quizList.add(quiz);
         quiz.setQuizSet(this);
     }
+
+    // Category - QuizSet
+    public void setCategory(Category category) {
+        this.category = category;
+        category.getQuizSets().add(this);
+    }
+
+//    public void setCategory(Category category) {this.category = category;}
 }
