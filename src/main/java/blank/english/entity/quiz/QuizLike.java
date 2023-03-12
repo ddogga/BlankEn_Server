@@ -1,5 +1,6 @@
-package blank.english.entity;
+package blank.english.entity.quiz;
 
+import blank.english.entity.Member;
 import blank.english.entity.quiz.QuizSet;
 import lombok.Getter;
 

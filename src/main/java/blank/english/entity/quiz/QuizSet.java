@@ -1,8 +1,9 @@
 package blank.english.entity.quiz;
 
+import blank.english.entity.BaseTimeEntity;
+import blank.english.entity.BooleanToYNConverter;
 import blank.english.entity.Category;
 import blank.english.entity.Member;
-import blank.english.entity.ShareState;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class QuizSet {
+public class QuizSet extends BaseTimeEntity {
 
     @Id
     @GeneratedValue
@@ -29,7 +30,11 @@ public class QuizSet {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "quizSet", cascade = CascadeType.ALL)
+    @OneToMany(
+            mappedBy = "quizSet",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Quiz> quizList = new ArrayList<>();
 
     @ManyToOne(fetch = LAZY)
@@ -47,25 +52,25 @@ public class QuizSet {
 
     private String contents;
 
-    @Column(name = "write_date")
-    private LocalDateTime writeDate;
+
 
     @Column(name = "good_nums")
     private int goodNums;
 
     private int views;
-    private ShareState state;
+
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean shared;
 
 
 
     @Builder
-    public QuizSet(Member member, List<Quiz> quizList, String titleImg, String title, String contents, LocalDateTime writeDate, ShareState state, Category category) {
+    public QuizSet(Member member, List<Quiz> quizList, String titleImg, String title, String contents, boolean shared, Category category) {
         this.member = member;
         this.titleImg = titleImg;
         this.title = title;
         this.contents = contents;
-        this.writeDate = writeDate;
-        this.state = state;
+        this.shared = shared;
 
         for (Quiz quiz : quizList) {
             addQuiz(quiz);
@@ -86,5 +91,4 @@ public class QuizSet {
         category.getQuizSets().add(this);
     }
 
-//    public void setCategory(Category category) {this.category = category;}
 }

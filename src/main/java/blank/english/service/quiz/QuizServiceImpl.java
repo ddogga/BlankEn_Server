@@ -46,6 +46,7 @@ public class QuizServiceImpl implements QuizService {
                 .title(quizForm.getTitle())
                 .contents(quizForm.getContents())
                 .category(findCategoryByName(quizForm.getCategory()))
+                .shared(quizForm.isShared())
                 .build();
     }
 

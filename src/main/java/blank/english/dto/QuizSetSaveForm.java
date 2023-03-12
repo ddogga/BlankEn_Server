@@ -11,12 +11,15 @@ import java.util.List;
 @Setter
 public class QuizSetSaveForm {
 
+
+
     private MultipartFile titleImg;
     private String title;
     private String contents;
     private String email;
     private List<QuizDto> quizList;
     private String category;
+    private boolean shared;
 
 
 
