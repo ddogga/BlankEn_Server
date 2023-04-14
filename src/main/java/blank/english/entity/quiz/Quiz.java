@@ -1,13 +1,17 @@
 package blank.english.entity.quiz;
 
+import blank.english.dto.QuizDto;
+import blank.english.dto.QuizResDto;
 import blank.english.entity.quiz.QuizSet;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@NoArgsConstructor
 public class Quiz {
 
     @Id
@@ -46,5 +50,15 @@ public class Quiz {
     }
 
 
-
+    public QuizResDto toDto() {
+        System.out.println("id = " + id);
+        return  QuizResDto.builder()
+                .quizImg(this.quizImgName)
+                .firstSentence(this.firstSentence)
+                .blank(this.blank)
+                .lastSentence(this.lastSentence)
+                .expression(this.expression)
+                .num(this.num)
+                .build();
+    }
 }

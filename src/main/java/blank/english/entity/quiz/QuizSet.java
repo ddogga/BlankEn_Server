@@ -1,5 +1,8 @@
 package blank.english.entity.quiz;
 
+import blank.english.dto.QuizDto;
+import blank.english.dto.QuizResDto;
+import blank.english.dto.QuizSetResDto;
 import blank.english.entity.BaseTimeEntity;
 import blank.english.entity.BooleanToYNConverter;
 import blank.english.entity.Category;
@@ -53,7 +56,6 @@ public class QuizSet extends BaseTimeEntity {
     private String contents;
 
 
-
     @Column(name = "good_nums")
     private int goodNums;
 
@@ -90,5 +92,31 @@ public class QuizSet extends BaseTimeEntity {
         this.category = category;
         category.getQuizSets().add(this);
     }
+
+
+    // Dto 변환
+
+    public QuizSetResDto toDto() {
+        System.out.println("id = " + id);
+        return QuizSetResDto.builder()
+                .id(this.id)
+                .writer(this.member.getNickname())
+                .quizzes(getQuizResDtoList())
+                .category(this.category.getName())
+                .titleImg(this.titleImg)
+                .title(this.title)
+                .contents(this.contents)
+                .quizCnt(this.quizList.size())
+                .goodNums(this.goodNums)
+                .views(this.views)
+                .build();
+    }
+
+    private List<QuizResDto> getQuizResDtoList(){
+        return this.quizList
+                .stream()
+                .map(Quiz::toDto).toList();
+    }
+
 
 }

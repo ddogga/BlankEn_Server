@@ -20,6 +20,9 @@ public class Category {
 
     private String description; //카테고리 설명
 
+    /**
+     * 하나의 카테고리에 해당되는 퀴즈세트가 여러개 있음.
+     */
     @OneToMany(mappedBy = "category")
     private List<QuizSet> quizSets;
 

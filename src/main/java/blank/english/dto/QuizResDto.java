@@ -2,14 +2,13 @@ package blank.english.dto;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter
-@Setter
-public class QuizDto {
+@Builder
+public class QuizResDto {
 
-    private MultipartFile quizImg;
+    private String quizImg;
     private String firstSentence;
     private String blank;
     private String lastSentence;
